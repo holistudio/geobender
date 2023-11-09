@@ -9,6 +9,10 @@ let formCurvePoints;
 
 let timeFraction;
 let startTime = 0;
+const animationLoopTime = 5;
+let reverse = false;
+let secondCounter = 0
+
 let p = 0;
 
 let mesh, geometry;
@@ -102,35 +106,32 @@ function main() {
 
     
     //RENDER LOOP
-    const animationLoopTime = 5;
-    let reverse = false;
-
-    let secondCounter = 0
-    
     function render(time) {
 
-        // time = time * 0.001;
-        // if((time-startTime) > animationLoopTime){
-        //     // console.log('reverse!')
-        //     reverse = !reverse;
-        //     startTime = time;
-        // }
-        // delta = (time-startTime);
-
-        // if(reverse){
-        //     timeFraction = (animationLoopTime-delta)/animationLoopTime;
-        //     // timeFraction = (-delta)/animationLoopTime;
-        // }
-        // else{
-        //     timeFraction = delta/animationLoopTime;
-        // }
         let seconds = (time-startTime)/1000
 
-        if (Math.floor(seconds)> secondCounter)
-        {
+        
+
+        if (Math.floor(seconds) > secondCounter){
             console.log(seconds);
+            console.log(timeFraction);
             secondCounter++;
-        }        
+        }
+        
+        if(reverse){
+            timeFraction = (animationLoopTime-seconds)/animationLoopTime;
+        }
+        else{
+            timeFraction = (seconds)/animationLoopTime;
+        }
+
+        if(seconds > animationLoopTime){
+            console.log('reverse!');
+            reverse = !reverse;
+            startTime = time;
+            secondCounter = 0;
+        }
+        
         renderer.render(scene, camera);
         
         requestAnimationFrame(render);
