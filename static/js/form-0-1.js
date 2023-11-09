@@ -9,6 +9,10 @@ let formCurvePoints;
 
 let timeFraction;
 let startTime = 0;
+const animationLoopTime = 5;
+let reverse = false;
+let secondCounter = 0
+
 let printOnce = true;
 let p = 0;
 
@@ -266,28 +270,24 @@ function main() {
         return needResize; //used for updating other thing if canvas is resized
     }
     
-    //RENDER LOOP
-    const animationLoopTime = 5;
-    let reverse = false;
-    
+    //RENDER LOOP    
     function render(time) {
+        // Calculate number of seconds that have elapsed
+        let seconds = (time-startTime)/1000
 
-        time = time * 0.001;
-        if((time-startTime) > animationLoopTime){
-            // console.log('reverse!')
-            reverse = !reverse;
-            startTime = time;
+        // Print seconds and timeFraction every 1 second
+        if (Math.floor(seconds) > secondCounter){
+            console.log(seconds);
+            console.log(timeFraction);
+            secondCounter++;
         }
-        delta = (time-startTime);
 
-        
-
+        // Determine direction of an animationLoop based on reverse boolean
         if(reverse){
-            timeFraction = (animationLoopTime-delta)/animationLoopTime;
-            // timeFraction = (-delta)/animationLoopTime;
+            timeFraction = (animationLoopTime-seconds)/animationLoopTime;
         }
         else{
-            timeFraction = delta/animationLoopTime;
+            timeFraction = seconds/animationLoopTime;
         }
 
         // check if renderer resolution needs to change based on canvas/window size
@@ -303,9 +303,6 @@ function main() {
         
 
         //Interpolate between curves
-        
-        
-
         for (let j = 0; j < formWindowPoints.length; j++) {
             let f1 = formCurvePoints[j+5].points;
             let f2 = formCurvePoints[j+5+10].points;
@@ -344,6 +341,18 @@ function main() {
                 updateQuad(geoIndex,p1,p2,p3,p4);
                 geoIndex = geoIndex + 6;
             }
+        }
+
+        // If seconds have passed animationLoopTime
+        if(seconds > animationLoopTime){
+            console.log('reverse!');
+
+            // Reverse direction of animation
+            reverse = !reverse;
+
+            // Reset timer starting point
+            startTime = time;
+            secondCounter = 0;
         }
 
         geometry.attributes.position.needsUpdate = true;
