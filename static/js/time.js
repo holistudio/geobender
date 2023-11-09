@@ -118,7 +118,7 @@ function main() {
             secondCounter++;
         }
         
-        // Determe direction of an animationLoop based on reverse boolean
+        // Determine direction of an animationLoop based on reverse boolean
         if(reverse){
             timeFraction = (animationLoopTime-seconds)/animationLoopTime;
         }
