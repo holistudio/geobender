@@ -108,16 +108,17 @@ function main() {
     //RENDER LOOP
     function render(time) {
 
+        // Calculate number of seconds that have elapsed
         let seconds = (time-startTime)/1000
 
-        
-
+        // Print seconds and timeFraction every 1 second
         if (Math.floor(seconds) > secondCounter){
             console.log(seconds);
             console.log(timeFraction);
             secondCounter++;
         }
         
+        // Determe direction of an animationLoop based on reverse boolean
         if(reverse){
             timeFraction = (animationLoopTime-seconds)/animationLoopTime;
         }
@@ -125,9 +126,14 @@ function main() {
             timeFraction = (seconds)/animationLoopTime;
         }
 
+        // If seconds have passed animationLoopTime
         if(seconds > animationLoopTime){
             console.log('reverse!');
+
+            // Reverse direction of animation
             reverse = !reverse;
+
+            // Reset timer starting point
             startTime = time;
             secondCounter = 0;
         }
@@ -142,7 +148,7 @@ function main() {
 function setup(){
     form0CurvePoints = loadPoints(form1);
     formCurvePoints = JSON.parse(JSON.stringify(form0CurvePoints));
-    console.log(formCurvePoints.length);
+    // console.log(formCurvePoints.length);
     main();
 }
 
