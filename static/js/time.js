@@ -104,6 +104,8 @@ function main() {
     //RENDER LOOP
     const animationLoopTime = 5;
     let reverse = false;
+
+    let secondCounter = 0
     
     function render(time) {
 
@@ -122,8 +124,13 @@ function main() {
         // else{
         //     timeFraction = delta/animationLoopTime;
         // }
+        let seconds = (time-startTime)/1000
 
-        console.log(time-startTime);
+        if (Math.floor(seconds)> secondCounter)
+        {
+            console.log(seconds);
+            secondCounter++;
+        }        
         renderer.render(scene, camera);
         
         requestAnimationFrame(render);
