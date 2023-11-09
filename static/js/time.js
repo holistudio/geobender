@@ -96,7 +96,7 @@ function main() {
         pointLight.position.set( 1500, 1000, -3000 );
         const pointLightHelper = new THREE.PointLightHelper( pointLight, 5 );
         scene.add( pointLight );
-        scene.add( pointLightHelper );
+        // scene.add( pointLightHelper );
     }
     
 
@@ -131,7 +131,7 @@ function main() {
             startTime = time;
             secondCounter = 0;
         }
-        
+
         renderer.render(scene, camera);
         
         requestAnimationFrame(render);
