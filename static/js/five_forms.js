@@ -22,6 +22,8 @@ let normals = [];
 
 const numCurves = 5;
 
+const curveXCoordinates = [0, 65.444721, 130.889443, 196.334164, 261.778885]
+
 function loadPoints(table){
     let formPoints =  [];
     let curveKey = -1;
@@ -45,7 +47,8 @@ function loadPoints(table){
         }
 
         //append latest point to formPoints at the latest curveKey
-        formPoints[curveKey].points.push({x:1*row.get(0),y:1*row.get(2),z:-1*row.get(1)});
+        // formPoints[curveKey].points.push({x:1*row.get(0), y:1*row.get(2), z:-1*row.get(1)});
+        formPoints[curveKey].points.push({y:1*row.get(2), z:-1*row.get(1)});
 
     }
     return formPoints;
@@ -89,8 +92,6 @@ function main() {
     // camera.lookAt(zoom * lookUnitVector[0], zoom * lookUnitVector[1], zoom * lookUnitVector[2]);
     camera.lookAt(lookAt[0],lookAt[1],lookAt[2]);
     
-    
-
     //SCENE
     const scene = new THREE.Scene();
 
@@ -291,25 +292,36 @@ function main() {
 
         // Print seconds every 1 second
         if (Math.floor(seconds) > secondCounter){
-            console.log(seconds);
+            // console.log(seconds);
             secondCounter++;
 
-            if ((scanIndex + formWindowPoints.length) < formCurvePoints.length){
-                // Update curves
-                for (let j = 0; j < formWindowPoints.length; j++) {
-                    let f = formCurvePoints[scanIndex + j].points;
+            // Load new curve
+            let newCurve = formCurvePoints[scanIndex + formWindowPoints.length]
 
-                    let curve = formWindowPoints[j]
+            // Push new curve to formWindowPoints
+            formWindowPoints.push(newCurve);
 
-                    //update curve points interpolating between form0 and form1
-                    curve.points.forEach(function(coord, k, array) {
-                        // sphereIndex = f1.length * j + k;
-                        // coord.x = 1*f1[k].x + timeFraction*(f2[k].x-f1[k].x);
-                        coord.y = 1*f[k].y;
-                        coord.z = 1*f[k].z;
-                    });
-                }
-            }
+            // Pop first rendered curve
+            formWindowPoints.shift();
+
+            // Update new set of curves
+
+            // if ((scanIndex + formWindowPoints.length) < formCurvePoints.length){
+            //     // Update curves
+            //     for (let j = 0; j < formWindowPoints.length; j++) {
+            //         let f = formCurvePoints[scanIndex + j].points;
+
+            //         let curve = formWindowPoints[j]
+
+            //         //update curve points interpolating between form0 and form1
+            //         curve.points.forEach(function(coord, k, array) {
+            //             // sphereIndex = f1.length * j + k;
+            //             // coord.x = 1*f1[k].x + timeFraction*(f2[k].x-f1[k].x);
+            //             coord.y = 1*f[k].y;
+            //             coord.z = 1*f[k].z;
+            //         });
+            //     }
+            // }
 
             scanIndex++;
         }
@@ -331,6 +343,9 @@ function main() {
             const curve0 = formWindowPoints[i];
             const curve1 = formWindowPoints[i+1];
 
+            const curve0X = curveXCoordinates[i];
+            const curve1X = curveXCoordinates[i+1];
+
             for (let j = 0; j < curve0.points.length; j++) {
                 let p1,p2,p3,p4;
                 if(j==curve0.points.length-1){
@@ -345,6 +360,11 @@ function main() {
                     p3 = curve1.points[j+1];
                     p4 = curve0.points[j+1];
                 }
+
+                p1 = {x: curve0X, y: p1.y, z: p1.z};
+                p2 = {x: curve1X, y: p2.y, z: p2.z};
+                p3 = {x: curve1X, y: p3.y, z: p3.z};
+                p4 = {x: curve0X, y: p4.y, z: p4.z};
 
                 updateQuad(geoIndex,p1,p2,p3,p4);
                 geoIndex = geoIndex + 6;
