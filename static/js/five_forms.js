@@ -72,10 +72,21 @@ function main() {
     const near = 1;
     const far = 10000;
     const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+
+    // const lookAt = [1053,-2,-660]
+    const lookAt = [1053,800,-300]
+    const lookUnitVector = [0.67236, 0.694525, 0.25606]
+    const zoom = 500
     
-    camera.position.set(3965, 3006, 449);
+    // camera.position.set(3965, 3006, 449); 
+    camera.position.set(lookAt[0]+ zoom * lookUnitVector[0], 
+        lookAt[1] + zoom * lookUnitVector[1], 
+        lookAt[2] + zoom * lookUnitVector[2]); 
     // camera.position.set(3808, 3007, 548);
-    camera.lookAt(1053,-2,-660);
+    
+    // camera.lookAt(zoom * lookUnitVector[0], zoom * lookUnitVector[1], zoom * lookUnitVector[2]);
+    camera.lookAt(lookAt[0],lookAt[1],lookAt[2]);
+    
     
 
     //SCENE
@@ -93,11 +104,12 @@ function main() {
         const helper = new THREE.DirectionalLightHelper( light, 5 );
 
         const pointLight = new THREE.PointLight(0x0000FF, 0.5, 0 );
-        
         pointLight.position.set( 1500, 1000, -3000 );
-        const pointLightHelper = new THREE.PointLightHelper( pointLight, 5 );
+        
         scene.add( pointLight );
-        // scene.add( pointLightHelper );
+
+        const pointLightHelper = new THREE.PointLightHelper( pointLight, 5 );
+        scene.add(cpointLightHelper);
     }
     
     //POINTS
