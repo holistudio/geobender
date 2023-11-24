@@ -314,22 +314,6 @@ function main() {
         camera.updateProjectionMatrix();
         
 
-        //Interpolate between curves
-        for (let j = 0; j < formWindowPoints.length; j++) {
-            let f1 = formCurvePoints[j+5].points;
-            let f2 = formCurvePoints[j+5+10].points;
-
-            let curve = formWindowPoints[j]
-
-            //update curve points interpolating between form0 and form1
-            curve.points.forEach(function(coord, k, array) {
-                // sphereIndex = f1.length * j + k;
-                // coord.x = 1*f1[k].x + timeFraction*(f2[k].x-f1[k].x);
-                coord.y = 1*f1[k].y + timeFraction*(f2[k].y-f1[k].y);
-                coord.z = 1*f1[k].z + timeFraction*(f2[k].z-f1[k].z);
-            });
-        }
-
         let geoIndex=0;
         for (let i = 0; i < formWindowPoints.length-1; i++) {
             const curve0 = formWindowPoints[i];
