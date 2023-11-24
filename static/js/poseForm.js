@@ -6,7 +6,7 @@ let vertices = [];
 let normals = [];
 
 
-const numCurves = 20;
+const numCurves = 10;
 const curveSpacing = 30
 let curveXCoordinates = [];
 for (let i = 0; i < numCurves; i++) {
@@ -69,11 +69,11 @@ function main() {
         const helper = new THREE.DirectionalLightHelper( light, 5 );
 
         const pointLight = new THREE.PointLight(0x0000FF, 0.5, 0 );
-        pointLight.position.set( 1500, 1000, -3000 );
-        
+        // pointLight.position.set( 1500, -1000, -3000 );
+        pointLight.position.set(1053,800,-300);
         scene.add( pointLight );
 
-        const pointLightHelper = new THREE.PointLightHelper( pointLight, 5 );
+        // const pointLightHelper = new THREE.PointLightHelper( pointLight, 5 );
         // scene.add(pointLightHelper);
     }
 
