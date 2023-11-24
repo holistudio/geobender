@@ -6,8 +6,8 @@ let vertices = [];
 let normals = [];
 
 
-const numCurves = 5;
-const curveSpacing = 10
+const numCurves = 20;
+const curveSpacing = 30
 let curveXCoordinates = [];
 for (let i = 0; i < numCurves; i++) {
     curveXCoordinates.push(curveSpacing*i);
