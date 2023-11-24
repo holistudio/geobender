@@ -304,25 +304,6 @@ function main() {
             // Pop first rendered curve
             formWindowPoints.shift();
 
-            // Update new set of curves
-
-            // if ((scanIndex + formWindowPoints.length) < formCurvePoints.length){
-            //     // Update curves
-            //     for (let j = 0; j < formWindowPoints.length; j++) {
-            //         let f = formCurvePoints[scanIndex + j].points;
-
-            //         let curve = formWindowPoints[j]
-
-            //         //update curve points interpolating between form0 and form1
-            //         curve.points.forEach(function(coord, k, array) {
-            //             // sphereIndex = f1.length * j + k;
-            //             // coord.x = 1*f1[k].x + timeFraction*(f2[k].x-f1[k].x);
-            //             coord.y = 1*f[k].y;
-            //             coord.z = 1*f[k].z;
-            //         });
-            //     }
-            // }
-
             scanIndex++;
         }
 
