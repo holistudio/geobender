@@ -83,7 +83,6 @@ function main() {
         lookAt[1] + zoom * lookUnitVector[1], 
         lookAt[2] + zoom * lookUnitVector[2]); 
     // camera.position.set(3808, 3007, 548);
-    
     // camera.lookAt(zoom * lookUnitVector[0], zoom * lookUnitVector[1], zoom * lookUnitVector[2]);
     camera.lookAt(lookAt[0],lookAt[1],lookAt[2]);
     
@@ -109,7 +108,7 @@ function main() {
         scene.add( pointLight );
 
         const pointLightHelper = new THREE.PointLightHelper( pointLight, 5 );
-        scene.add(cpointLightHelper);
+        // scene.add(pointLightHelper);
     }
     
     //POINTS
