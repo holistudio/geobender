@@ -8,7 +8,7 @@ let normals = [];
 
 const numCurves = 5;
 const curveXCoordinates = [0, 65.444721, 130.889443, 196.334164, 261.778885];
-const origin = {y: -10, z: -1000}; //90
+const origin = {y: -500, z: -1000}; //-10
 const scale = 10;
 let formWindowPoints =  [];
 let curveKey = 0;
