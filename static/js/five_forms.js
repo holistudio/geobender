@@ -60,6 +60,121 @@ function preload(){
     form1 = loadTable('static/forms/form_1.csv');
 }
 
+function makeSphere(position) {
+    const radius = 4;
+    const widthSegments = 12;
+    const heightSegments = 8;
+    const geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
+    const color = 0x49ef4;
+    const material = new THREE.MeshPhongMaterial({color});
+
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+
+    sphere.position.x = position.x;
+    sphere.position.y = position.y;
+    sphere.position.z = position.z;
+
+    return sphere;
+}
+
+function makeQuad(p1,p2,p3,p4) {
+    // create a simple square shape. We duplicate the top left and bottom right
+    // vertices because each vertex needs to appear once per triangle.
+    vertices.push(p1.x, p1.y, p1.z);
+    vertices.push(p3.x, p3.y, p3.z);
+    vertices.push(p2.x, p2.y, p2.z);
+    vertices.push(p3.x, p3.y, p3.z);
+    vertices.push(p1.x, p1.y, p1.z);
+    vertices.push(p4.x, p4.y, p4.z);
+
+    // Calculate normal vectors for each triangle vertex
+    // A = [a1, a2, a3] and B = [b1, b2, b3] 
+    const a1 = p2.x - p1.x;
+    const a2 = p2.y - p1.y;
+    const a3 = p2.z - p1.z;
+
+    const b1 = p2.x - p3.x;
+    const b2 = p2.y - p3.y;
+    const b3 = p2.z - p3.z;
+
+    const crossAB = {x:a2 * b3 - a3 * b2, y:a3 * b1 - a1 * b3, z:a1 * b2 - a2 * b1};
+    
+    normals.push(crossAB.x, crossAB.y, crossAB.z);
+    normals.push(crossAB.x, crossAB.y, crossAB.z);
+    normals.push(crossAB.x, crossAB.y, crossAB.z);
+    normals.push(crossAB.x, crossAB.y, crossAB.z);
+    normals.push(crossAB.x, crossAB.y, crossAB.z);
+    normals.push(crossAB.x, crossAB.y, crossAB.z);
+}
+
+function updateQuad(i,p1,p2,p3,p4) {
+    const position = geometry.attributes.position;
+    const dir = geometry.attributes.normal;
+    // create a simple square shape. We duplicate the top left and bottom right
+    // vertices because each vertex needs to appear once per triangle.
+
+    position.setX(i, p1.x);
+    position.setY(i, p1.y);
+    position.setZ(i, p1.z);
+
+    position.setX(i+1, p3.x);
+    position.setY(i+1, p3.y);
+    position.setZ(i+1, p3.z);
+
+    position.setX(i+2, p2.x);
+    position.setY(i+2, p2.y);
+    position.setZ(i+2, p2.z);
+
+    position.setX(i+3, p3.x);
+    position.setY(i+3, p3.y);
+    position.setZ(i+3, p3.z);
+
+    position.setX(i+4, p1.x);
+    position.setY(i+4, p1.y);
+    position.setZ(i+4, p1.z);
+    
+    position.setX(i+5, p4.x);
+    position.setY(i+5, p4.y);
+    position.setZ(i+5, p4.z);
+
+    // Calculate normal vectors for each triangle vertex
+    // A = [a1, a2, a3] and B = [b1, b2, b3] 
+    const a1 = p2.x - p1.x;
+    const a2 = p2.y - p1.y;
+    const a3 = p2.z - p1.z;
+
+    const b1 = p2.x - p3.x;
+    const b2 = p2.y - p3.y;
+    const b3 = p2.z - p3.z;
+
+    const crossAB = {x:a2 * b3 - a3 * b2, y:a3 * b1 - a1 * b3, z:a1 * b2 - a2 * b1};
+
+    dir.setX(i, crossAB.x);
+    dir.setY(i, crossAB.y);
+    dir.setZ(i, crossAB.z);
+
+    dir.setX(i+1, crossAB.x);
+    dir.setY(i+1, crossAB.y);
+    dir.setZ(i+1, crossAB.z);
+
+    dir.setX(i+2, crossAB.x);
+    dir.setY(i+2, crossAB.y);
+    dir.setZ(i+2, crossAB.z);
+
+    dir.setX(i+3, crossAB.x);
+    dir.setY(i+3, crossAB.y);
+    dir.setZ(i+3, crossAB.z);
+
+    dir.setX(i+4, crossAB.x);
+    dir.setY(i+4, crossAB.y);
+    dir.setZ(i+4, crossAB.z);
+
+    dir.setX(i+5, crossAB.x);
+    dir.setY(i+5, crossAB.y);
+    dir.setZ(i+5, crossAB.z);
+}
+
 function main() {
     
 
@@ -116,124 +231,13 @@ function main() {
     }
     
     //POINTS
-    function makeSphere(position) {
-        const radius = 4;
-        const widthSegments = 12;
-        const heightSegments = 8;
-        const geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
-        const color = 0x49ef4;
-        const material = new THREE.MeshPhongMaterial({color});
 
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
-
-        sphere.position.x = position.x;
-        sphere.position.y = position.y;
-        sphere.position.z = position.z;
-
-        return sphere;
-    }
 
     //SURFACES
     geometry = new THREE.BufferGeometry();
     const meshMaterial = new THREE.MeshLambertMaterial( {color: 0x32fcdb, side: THREE.DoubleSide} );
 
-    function makeQuad(p1,p2,p3,p4) {
-        // create a simple square shape. We duplicate the top left and bottom right
-        // vertices because each vertex needs to appear once per triangle.
-        vertices.push(p1.x, p1.y, p1.z);
-        vertices.push(p3.x, p3.y, p3.z);
-        vertices.push(p2.x, p2.y, p2.z);
-        vertices.push(p3.x, p3.y, p3.z);
-        vertices.push(p1.x, p1.y, p1.z);
-        vertices.push(p4.x, p4.y, p4.z);
 
-        // Calculate normal vectors for each triangle vertex
-        // A = [a1, a2, a3] and B = [b1, b2, b3] 
-        const a1 = p2.x - p1.x;
-        const a2 = p2.y - p1.y;
-        const a3 = p2.z - p1.z;
-
-        const b1 = p2.x - p3.x;
-        const b2 = p2.y - p3.y;
-        const b3 = p2.z - p3.z;
-
-        const crossAB = {x:a2 * b3 - a3 * b2, y:a3 * b1 - a1 * b3, z:a1 * b2 - a2 * b1};
-        
-        normals.push(crossAB.x, crossAB.y, crossAB.z);
-        normals.push(crossAB.x, crossAB.y, crossAB.z);
-        normals.push(crossAB.x, crossAB.y, crossAB.z);
-        normals.push(crossAB.x, crossAB.y, crossAB.z);
-        normals.push(crossAB.x, crossAB.y, crossAB.z);
-        normals.push(crossAB.x, crossAB.y, crossAB.z);
-    }
-
-    function updateQuad(i,p1,p2,p3,p4) {
-        const position = geometry.attributes.position;
-        const dir = geometry.attributes.normal;
-        // create a simple square shape. We duplicate the top left and bottom right
-        // vertices because each vertex needs to appear once per triangle.
-
-        position.setX(i, p1.x);
-        position.setY(i, p1.y);
-        position.setZ(i, p1.z);
-
-        position.setX(i+1, p3.x);
-        position.setY(i+1, p3.y);
-        position.setZ(i+1, p3.z);
-
-        position.setX(i+2, p2.x);
-        position.setY(i+2, p2.y);
-        position.setZ(i+2, p2.z);
-
-        position.setX(i+3, p3.x);
-        position.setY(i+3, p3.y);
-        position.setZ(i+3, p3.z);
-
-        position.setX(i+4, p1.x);
-        position.setY(i+4, p1.y);
-        position.setZ(i+4, p1.z);
-        
-        position.setX(i+5, p4.x);
-        position.setY(i+5, p4.y);
-        position.setZ(i+5, p4.z);
-
-        // Calculate normal vectors for each triangle vertex
-        // A = [a1, a2, a3] and B = [b1, b2, b3] 
-        const a1 = p2.x - p1.x;
-        const a2 = p2.y - p1.y;
-        const a3 = p2.z - p1.z;
-
-        const b1 = p2.x - p3.x;
-        const b2 = p2.y - p3.y;
-        const b3 = p2.z - p3.z;
-
-        const crossAB = {x:a2 * b3 - a3 * b2, y:a3 * b1 - a1 * b3, z:a1 * b2 - a2 * b1};
-
-        dir.setX(i, crossAB.x);
-        dir.setY(i, crossAB.y);
-        dir.setZ(i, crossAB.z);
-
-        dir.setX(i+1, crossAB.x);
-        dir.setY(i+1, crossAB.y);
-        dir.setZ(i+1, crossAB.z);
-
-        dir.setX(i+2, crossAB.x);
-        dir.setY(i+2, crossAB.y);
-        dir.setZ(i+2, crossAB.z);
-
-        dir.setX(i+3, crossAB.x);
-        dir.setY(i+3, crossAB.y);
-        dir.setZ(i+3, crossAB.z);
-
-        dir.setX(i+4, crossAB.x);
-        dir.setY(i+4, crossAB.y);
-        dir.setZ(i+4, crossAB.z);
-
-        dir.setX(i+5, crossAB.x);
-        dir.setY(i+5, crossAB.y);
-        dir.setZ(i+5, crossAB.z);
-    }
 
     let formWindowPoints =  [];
     for (let i = 0; i < numCurves; i++) {
