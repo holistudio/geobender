@@ -7,7 +7,12 @@ let normals = [];
 
 
 const numCurves = 5;
-const curveXCoordinates = [0, 65.444721, 130.889443, 196.334164, 261.778885];
+const curveSpacing = 10
+let curveXCoordinates = [];
+for (let i = 0; i < numCurves; i++) {
+    curveXCoordinates.push(curveSpacing*i);
+}
+
 const origin = {y: -500, z: -1000}; //-10
 const scale = 10;
 let formWindowPoints =  [];
