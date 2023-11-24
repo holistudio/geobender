@@ -10,7 +10,8 @@ let formCurvePoints;
 let startTime = 0;
 const animationLoopTime = 5;
 let reverse = false;
-let secondCounter = 0
+let secondCounter = 0;
+let scanIndex = 0;
 
 let printOnce = true;
 let p = 0;
@@ -290,6 +291,23 @@ function main() {
         if (Math.floor(seconds) > secondCounter){
             console.log(seconds);
             secondCounter++;
+
+            // Update curves
+            //Interpolate between curves
+            for (let j = 0; j < formWindowPoints.length; j++) {
+                let f = formCurvePoints[scanIndex + j].points;
+
+                let curve = formWindowPoints[j]
+
+                //update curve points interpolating between form0 and form1
+                curve.points.forEach(function(coord, k, array) {
+                    // sphereIndex = f1.length * j + k;
+                    // coord.x = 1*f1[k].x + timeFraction*(f2[k].x-f1[k].x);
+                    coord.y = 1*f[k].y;
+                    coord.z = 1*f[k].z;
+                });
+            }
+            scanIndex++;
         }
 
         // check if renderer resolution needs to change based on canvas/window size
