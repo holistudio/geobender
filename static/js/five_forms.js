@@ -76,12 +76,13 @@ function main() {
     // const lookAt = [1053,-2,-660]
     const lookAt = [1053,800,-300]
     const lookUnitVector = [0.67236, 0.694525, 0.25606]
-    const zoom = 500
+    const zoom = 1.5
+    const distance = 500 / zoom
     
     // camera.position.set(3965, 3006, 449); 
-    camera.position.set(lookAt[0]+ zoom * lookUnitVector[0], 
-        lookAt[1] + zoom * lookUnitVector[1], 
-        lookAt[2] + zoom * lookUnitVector[2]); 
+    camera.position.set(lookAt[0]+ distance * lookUnitVector[0], 
+        lookAt[1] + distance * lookUnitVector[1], 
+        lookAt[2] + distance * lookUnitVector[2]); 
     // camera.position.set(3808, 3007, 548);
     // camera.lookAt(zoom * lookUnitVector[0], zoom * lookUnitVector[1], zoom * lookUnitVector[2]);
     camera.lookAt(lookAt[0],lookAt[1],lookAt[2]);
