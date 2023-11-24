@@ -6,11 +6,11 @@ let vertices = [];
 let normals = [];
 
 
-const numCurves = 10;
+const numCurves = 30;
 const curveSpacing = 30
 let curveXCoordinates = [];
 for (let i = 0; i < numCurves; i++) {
-    curveXCoordinates.push(curveSpacing*i);
+    curveXCoordinates.push(curveSpacing*i-50);
 }
 
 const origin = {y: -500, z: -1000}; //-10
@@ -43,7 +43,7 @@ function main() {
     // const lookAt = [1053,-2,-660]
     const lookAt = [1053,800,-300]
     const lookUnitVector = [0.67236, 0.694525, 0.25606]
-    const zoom = 1.5
+    const zoom = 0.5
     const distance = 500 / zoom
     
     // camera.position.set(3965, 3006, 449); 
@@ -235,7 +235,7 @@ function main() {
         // Print seconds every 1 second
         if (Math.floor(seconds) > secondCounter){
             console.log(seconds);
-            secondCounter++;
+            secondCounter+= 0.5;
 
             if(typeof poses[0] != 'undefined'){
                 // Load a pose from PoseNet as a curve
