@@ -347,18 +347,6 @@ function main() {
             }
         }
 
-        // If seconds have passed animationLoopTime
-        if(seconds > animationLoopTime){
-            console.log('reverse!');
-
-            // Reverse direction of animation
-            reverse = !reverse;
-
-            // Reset timer starting point
-            startTime = time;
-            secondCounter = 0;
-        }
-
         geometry.attributes.position.needsUpdate = true;
         geometry.attributes.normal.needsUpdate = true;
 
