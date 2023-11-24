@@ -7,7 +7,6 @@ let form1CurvePoints;
 let f2;
 let formCurvePoints;
 
-let timeFraction;
 let startTime = 0;
 const animationLoopTime = 5;
 let reverse = false;
@@ -287,19 +286,10 @@ function main() {
         // Calculate number of seconds that have elapsed
         let seconds = (time-startTime)/1000
 
-        // Print seconds and timeFraction every 1 second
+        // Print seconds every 1 second
         if (Math.floor(seconds) > secondCounter){
             console.log(seconds);
-            console.log(timeFraction);
             secondCounter++;
-        }
-
-        // Determine direction of an animationLoop based on reverse boolean
-        if(reverse){
-            timeFraction = (animationLoopTime-seconds)/animationLoopTime;
-        }
-        else{
-            timeFraction = seconds/animationLoopTime;
         }
 
         // check if renderer resolution needs to change based on canvas/window size
