@@ -70,7 +70,7 @@ function main() {
 
         const pointLight = new THREE.PointLight(0x0000FF, 0.5, 0 );
         // pointLight.position.set( 1500, -1000, -3000 );
-        pointLight.position.set(1053,800,-300);
+        pointLight.position.set(1053,1000,0);
         scene.add( pointLight );
 
         // const pointLightHelper = new THREE.PointLightHelper( pointLight, 5 );
