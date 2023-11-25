@@ -197,6 +197,9 @@ function main() {
 
         let pose = poses[0].pose;
 
+        // left hip
+        curve.points.push({y:scale*(height - pose.leftHip.y) + origin.y, z:scale*pose.leftHip.x + origin.z});
+
         // left shoulder
         curve.points.push({y:scale*(height - pose.leftShoulder.y) + origin.y, z:scale*pose.leftShoulder.x + origin.z});
 
@@ -223,6 +226,9 @@ function main() {
 
         //right shoulder
         curve.points.push({y:scale*(height - pose.rightShoulder.y) + origin.y, z:scale*pose.rightShoulder.x + origin.z});
+
+        // right hip
+        curve.points.push({y:scale*(height - pose.rightHip.y) + origin.y, z:scale*pose.rightHip.x + origin.z});
 
         curveKey++;
         return curve;
