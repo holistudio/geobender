@@ -8,8 +8,8 @@ const origin = {y: -500, z: -1000}; // local origin of the generated geometry fr
 const scale = 10; // scale up pose key points x-y coordinates in the webcam video's frame of reference
 
 // Variables for storing the geometry to show in the scene
-let poseCurvesSet =  []; // stores all poses as curves for forming the 3D mesh geometry
-let formWindowComplete = false; // checks if enough poses have been detected to form the 3D mesh geometry
+let poseCurveSet =  []; // stores all poses as curves for forming the 3D mesh geometry
+let poseCurveSetComplete = false; // checks if enough poses have been detected to form the 3D mesh geometry
 let curveID = 0; // tracks how many poses have been detected over the entire time
 
 // PoseNet required variables
@@ -261,13 +261,13 @@ function main() {
                 // Load a pose from PoseNet as a curve
                 let newCurve = loadPose();
 
-                // Push new curve to poseCurvesSet
-                poseCurvesSet.push(newCurve);
+                // Push new curve to poseCurveSet
+                poseCurveSet.push(newCurve);
 
-                while (poseCurvesSet.length > numCurves){
+                while (poseCurveSet.length > numCurves){
 
                     // Pop first rendered curve
-                    poseCurvesSet.shift();
+                    poseCurveSet.shift();
 
                 }
             }
@@ -284,18 +284,18 @@ function main() {
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
 
-        // bool formWindowComplete is true if enough poses have been detected to form a mesh with enough curves (numCurves)
+        // bool poseCurveSetComplete is true if enough poses have been detected to form a mesh with enough curves (numCurves)
 
         // if not enough poses have been detected
-        if(!formWindowComplete){
+        if(!poseCurveSetComplete){
             // check if enough poses have been detected
-            if (poseCurvesSet.length == numCurves){
+            if (poseCurveSet.length == numCurves){
 
-                // Make quad mesh between each pose/curve in the poseCurvesSet (i.e. linear lofting of curves)
-                for (let i = 0; i < poseCurvesSet.length-1; i++) {
+                // Make quad mesh between each pose/curve in the poseCurveSet (i.e. linear lofting of curves)
+                for (let i = 0; i < poseCurveSet.length-1; i++) {
 
-                    const curve0 = poseCurvesSet[i];
-                    const curve1 = poseCurvesSet[i+1];
+                    const curve0 = poseCurveSet[i];
+                    const curve1 = poseCurveSet[i+1];
                     
                     for (let j = 0; j < curve0.points.length; j++) {
                         let p1,p2,p3,p4;
@@ -325,8 +325,8 @@ function main() {
                 // add mesh to scene
                 scene.add(mesh);
 
-                // set formWindowComplete to true so that none of this code runs ever again
-                formWindowComplete = true;
+                // set poseCurveSetComplete to true so that none of this code runs ever again
+                poseCurveSetComplete = true;
             }
             // otherwise do nothing
         }
@@ -336,9 +336,9 @@ function main() {
 
             let geoIndex=0; // index for tracking which quad on the mesh needs to be updated
 
-            for (let i = 0; i < poseCurvesSet.length-1; i++) {
-                const curve0 = poseCurvesSet[i];
-                const curve1 = poseCurvesSet[i+1];
+            for (let i = 0; i < poseCurveSet.length-1; i++) {
+                const curve0 = poseCurveSet[i];
+                const curve1 = poseCurveSet[i+1];
 
                 const curve0X = curveXCoordinates[i];
                 const curve1X = curveXCoordinates[i+1];
