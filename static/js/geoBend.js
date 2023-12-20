@@ -349,18 +349,26 @@ function main() {
 
 }
 
+// p5js setup function (runs only once)
 function setup(){
+    // start the webcam feed
     video = createCapture(VIDEO);
+
+    // set video size to the width and height of the canvas
     video.size(width, height);
 
     // Create a new poseNet method with a single detection
     poseNet = ml5.poseNet(video);
+
     // This sets up an event that fills the global variable "poses"
     // with an array every time new poses are detected
     poseNet.on('pose', function(results) {
         poses = results;
     });
+
     // Hide the video element, and just show the canvas
     video.hide();
+
+    // Run the main function (THREEjs code using the poseNet detection data)
     main();
 }
