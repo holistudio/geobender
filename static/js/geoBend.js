@@ -12,9 +12,9 @@ const numPoses = 30; // number of poses to detect to form geometry
 
 // spacing between curves forming the mesh geometry
 const poseCurveSpacing = 30
-let curveXCoordinates = []; // stores the x-coordinates the curve to keep constant over geometry updates
+let poseCurveXCoordinates = []; // stores the x-coordinates the curve to keep constant over geometry updates
 for (let i = 0; i < numPoses; i++) {
-    curveXCoordinates.push(poseCurveSpacing*i-50);
+    poseCurveXCoordinates.push(poseCurveSpacing*i-50);
 }
 
 // Variables for storing the geometry to show in the scene
@@ -350,8 +350,8 @@ function main() {
                 const curve0 = poseCurveSet[i];
                 const curve1 = poseCurveSet[i+1];
 
-                const curve0X = curveXCoordinates[i];
-                const curve1X = curveXCoordinates[i+1];
+                const curve0X = poseCurveXCoordinates[i];
+                const curve1X = poseCurveXCoordinates[i+1];
 
                 for (let j = 0; j < curve0.points.length; j++) {
                     let p1,p2,p3,p4;
