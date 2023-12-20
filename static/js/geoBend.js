@@ -1,6 +1,7 @@
 // Variables for controlling when mesh geometry is generated and how often it is updated
 let startTime = 0; // seconds from which to start recording poses and update geometry
 let updateTime = 0; // stores the next time the geometry needs to be updated
+let updateRate = 2; // rate (Hz) at which poses are detected to update the mesh geometry
 
 // Variables for controlling where the geometry is generated in the scene and how big it is
 const origin = {y: -500, z: -1000}; // local origin of the generated geometry from poses
@@ -254,7 +255,7 @@ function main() {
         // and pop the oldest pose/curve off/out of the the mesh
         if (Math.floor(seconds) > updateTime){
             console.log(seconds);
-            updateTime += 0.5;
+            updateTime += 1 / updateRate;
 
             if(typeof poses[0] != 'undefined'){
                 // Load a pose from PoseNet as a curve
@@ -403,7 +404,7 @@ function setup(){
     });
 
     // Hide the video element, and just show the canvas
-    // video.hide();
+    video.hide();
 
     // Run the main function (THREEjs code using the PoseNet detection data)
     main();
