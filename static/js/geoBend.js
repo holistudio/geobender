@@ -1,29 +1,25 @@
-let startTime = 0;
-let secondCounter = 0;
+// Variables for controlling when mesh geometry is generated and how often it is updated
+let startTime = 0; // seconds from which to start recording poses and update geometry
+let secondCounter = 0; // stores the next time the geometry needs to be updated
 
-let mesh, geometry;
-let vertices = [];
-let normals = [];
+// Variables for controlling where the geometry is generated in the scene and how big it is
+const origin = {y: -500, z: -1000}; // local origin of the generated geometry from poses
+const scale = 10; // scale up pose key points x-y coordinates in the webcam video's frame of reference
 
+// Variables for storing the geometry to show in the scene
+let formWindowPoints =  []; // stores all poses as curves for forming the 3D mesh geometry
+let formWindowComplete = false; // checks if enough poses have been detected to form the 3D mesh geometry
+let curveKey = 0; // tracks how many poses have been detected over the entire time
 
-const numCurves = 30;
-const curveSpacing = 30
-let curveXCoordinates = [];
-for (let i = 0; i < numCurves; i++) {
-    curveXCoordinates.push(curveSpacing*i-50);
-}
-
-const origin = {y: -500, z: -1000}; //-10
-const scale = 10;
-let formWindowPoints =  [];
-let curveKey = 0;
-let formWindowComplete = false;
-
+// PoseNet required variables
 let video;
 let poseNet;
 let poses = [];
 
-
+// THREEJS required variables
+let mesh, geometry;
+let vertices = [];
+let normals = [];
 
 function main() {
 
