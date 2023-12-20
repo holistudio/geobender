@@ -7,7 +7,7 @@ const origin = {y: -500, z: -1000}; // local origin of the generated geometry fr
 const scale = 10; // scale up pose key points x-y coordinates in the webcam video's frame of reference
 
 // Variables for storing the geometry to show in the scene
-let formWindowPoints =  []; // stores all poses as curves for forming the 3D mesh geometry
+let poseCurvesSet =  []; // stores all poses as curves for forming the 3D mesh geometry
 let formWindowComplete = false; // checks if enough poses have been detected to form the 3D mesh geometry
 let curveKey = 0; // tracks how many poses have been detected over the entire time
 
@@ -260,13 +260,13 @@ function main() {
                 // Load a pose from PoseNet as a curve
                 let newCurve = loadPose();
 
-                // Push new curve to formWindowPoints
-                formWindowPoints.push(newCurve);
+                // Push new curve to poseCurvesSet
+                poseCurvesSet.push(newCurve);
 
-                while (formWindowPoints.length > numCurves){
+                while (poseCurvesSet.length > numCurves){
 
                     // Pop first rendered curve
-                    formWindowPoints.shift();
+                    poseCurvesSet.shift();
 
                 }
             }
@@ -288,13 +288,13 @@ function main() {
         // if not enough poses have been detected
         if(!formWindowComplete){
             // check if enough poses have been detected
-            if (formWindowPoints.length == numCurves){
+            if (poseCurvesSet.length == numCurves){
 
-                // Make quad mesh between each pose/curve in the formWindowPoints (i.e. linear lofting of curves)
-                for (let i = 0; i < formWindowPoints.length-1; i++) {
+                // Make quad mesh between each pose/curve in the poseCurvesSet (i.e. linear lofting of curves)
+                for (let i = 0; i < poseCurvesSet.length-1; i++) {
 
-                    const curve0 = formWindowPoints[i];
-                    const curve1 = formWindowPoints[i+1];
+                    const curve0 = poseCurvesSet[i];
+                    const curve1 = poseCurvesSet[i+1];
                     
                     for (let j = 0; j < curve0.points.length; j++) {
                         let p1,p2,p3,p4;
@@ -335,9 +335,9 @@ function main() {
 
             let geoIndex=0; // index for tracking which quad on the mesh needs to be updated
 
-            for (let i = 0; i < formWindowPoints.length-1; i++) {
-                const curve0 = formWindowPoints[i];
-                const curve1 = formWindowPoints[i+1];
+            for (let i = 0; i < poseCurvesSet.length-1; i++) {
+                const curve0 = poseCurvesSet[i];
+                const curve1 = poseCurvesSet[i+1];
 
                 const curve0X = curveXCoordinates[i];
                 const curve1X = curveXCoordinates[i+1];
