@@ -9,7 +9,7 @@ const scale = 10; // scale up pose key points x-y coordinates in the webcam vide
 // Variables for storing the geometry to show in the scene
 let poseCurvesSet =  []; // stores all poses as curves for forming the 3D mesh geometry
 let formWindowComplete = false; // checks if enough poses have been detected to form the 3D mesh geometry
-let curveKey = 0; // tracks how many poses have been detected over the entire time
+let curveID = 0; // tracks how many poses have been detected over the entire time
 
 // PoseNet required variables
 let video;
@@ -204,7 +204,7 @@ function main() {
     // This function loads a pose detected by PoseNet
     // as curve points
     function loadPose(){
-        let curve = {id:curveKey, points:[]};
+        let curve = {id:curveID, points:[]};
 
         let pose = poses[0].pose;
 
@@ -241,7 +241,7 @@ function main() {
         // right hip
         curve.points.push({y:scale*(height - pose.rightHip.y) + origin.y, z:scale*pose.rightHip.x + origin.z});
 
-        curveKey++;
+        curveID++;
         return curve;
     }
 
