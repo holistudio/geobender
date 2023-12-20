@@ -7,6 +7,16 @@ let updateRate = 2; // rate (Hz) at which poses are detected to update the mesh 
 const origin = {y: -500, z: -1000}; // local origin of the generated geometry from poses
 const scale = 10; // scale up pose key points x-y coordinates in the webcam video's frame of reference
 
+const numPoses = 30; // number of poses to detect to form geometry
+// waitTime = numPoses / updateRate (amount of time you have to wait before seeing any geometry)
+
+// spacing between curves forming the mesh geometry
+const poseCurveSpacing = 30
+let curveXCoordinates = []; // stores the x-coordinates the curve to keep constant over geometry updates
+for (let i = 0; i < numPoses; i++) {
+    curveXCoordinates.push(poseCurveSpacing*i-50);
+}
+
 // Variables for storing the geometry to show in the scene
 let poseCurveSet =  []; // stores all poses as curves for forming the 3D mesh geometry
 let poseCurveSetComplete = false; // checks if enough poses have been detected to form the 3D mesh geometry
@@ -101,7 +111,7 @@ function main() {
     }
 
     // This function makes the quad mesh the first time around 
-    // before the preset number of poses are loaded/detected (numCurves)
+    // before the preset number of poses are loaded/detected (numPoses)
     function makeQuad(p1,p2,p3,p4) {
         // create a simple square shape. We duplicate the top left and bottom right
         // vertices because each vertex needs to appear once per triangle.
@@ -134,7 +144,7 @@ function main() {
     }
     
     // This function modifies the existing quad mesh already displayed
-    // after the preset number of poses are loaded/detected (numCurves)
+    // after the preset number of poses are loaded/detected (numPoses)
     function updateQuad(i,p1,p2,p3,p4) {
         const position = geometry.attributes.position;
         const dir = geometry.attributes.normal;
@@ -264,7 +274,7 @@ function main() {
                 // Push new curve to poseCurveSet
                 poseCurveSet.push(newCurve);
 
-                while (poseCurveSet.length > numCurves){
+                while (poseCurveSet.length > numPoses){
 
                     // Pop first rendered curve
                     poseCurveSet.shift();
@@ -284,12 +294,12 @@ function main() {
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
 
-        // bool poseCurveSetComplete is true if enough poses have been detected to form a mesh with enough curves (numCurves)
+        // bool poseCurveSetComplete is true if enough poses have been detected to form a mesh with enough curves (numPoses)
 
         // if not enough poses have been detected
         if(!poseCurveSetComplete){
             // check if enough poses have been detected
-            if (poseCurveSet.length == numCurves){
+            if (poseCurveSet.length == numPoses){
 
                 // Make quad mesh between each pose/curve in the poseCurveSet (i.e. linear lofting of curves)
                 for (let i = 0; i < poseCurveSet.length-1; i++) {
