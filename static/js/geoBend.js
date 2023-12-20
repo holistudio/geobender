@@ -1,6 +1,6 @@
 // Variables for controlling when mesh geometry is generated and how often it is updated
 let startTime = 0; // seconds from which to start recording poses and update geometry
-let secondCounter = 0; // stores the next time the geometry needs to be updated
+let updateTime = 0; // stores the next time the geometry needs to be updated
 
 // Variables for controlling where the geometry is generated in the scene and how big it is
 const origin = {y: -500, z: -1000}; // local origin of the generated geometry from poses
@@ -252,9 +252,9 @@ function main() {
 
         // At the update rate (Hz), load a new pose as a new curve
         // and pop the oldest pose/curve off/out of the the mesh
-        if (Math.floor(seconds) > secondCounter){
+        if (Math.floor(seconds) > updateTime){
             console.log(seconds);
-            secondCounter+= 0.5;
+            updateTime += 0.5;
 
             if(typeof poses[0] != 'undefined'){
                 // Load a pose from PoseNet as a curve
