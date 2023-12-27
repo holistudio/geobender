@@ -3,8 +3,8 @@ let startTime = 0; // seconds from which to start recording poses and update geo
 let updateTime = 0; // stores the next time the geometry needs to be updated
 let updateRate = 2; // rate (Hz) at which poses are detected to update the mesh geometry
 
-// Variables for controlling where the geometry is generated in the scene and how big it is
-const origin = {x: -50, y: -500, z: -1000}; // local origin of the generated geometry from poses
+// Variables for controlling where the pose geometry is generated in the scene and how big it is
+const origin = {x: -500, y: -500, z: -1300}; // local origin of the generated geometry from poses
 const scale = 10; // scale up pose key points x-y coordinates in the webcam video's frame of reference
 
 const numPoses = 30; // number of poses to detect to form geometry
