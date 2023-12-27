@@ -4,7 +4,7 @@ let updateTime = 0; // stores the next time the geometry needs to be updated
 let updateRate = 2; // rate (Hz) at which poses are detected to update the mesh geometry
 
 // Variables for controlling where the geometry is generated in the scene and how big it is
-const origin = {y: -500, z: -1000}; // local origin of the generated geometry from poses
+const origin = {x: -50, y: -500, z: -1000}; // local origin of the generated geometry from poses
 const scale = 10; // scale up pose key points x-y coordinates in the webcam video's frame of reference
 
 const numPoses = 30; // number of poses to detect to form geometry
@@ -14,7 +14,7 @@ const numPoses = 30; // number of poses to detect to form geometry
 const poseCurveSpacing = 30
 let poseCurveXCoordinates = []; // stores the x-coordinates the curve to keep constant over geometry updates
 for (let i = 0; i < numPoses; i++) {
-    poseCurveXCoordinates.push(poseCurveSpacing*i-50);
+    poseCurveXCoordinates.push(origin.x + poseCurveSpacing*i);
 }
 
 // Variables for storing the geometry to show in the scene
