@@ -219,17 +219,25 @@ function main() {
 
         let pose = poses[0].pose;
 
+        // console.log(pose);
+
+        // left ankle
+        curve.points.push({y:scale*(height - pose.leftAnkle.y) + origin.y, z:scale*pose.leftAnkle.x + origin.z});
+
+        // left knee
+        curve.points.push({y:scale*(height - pose.leftKnee.y) + origin.y, z:scale*pose.leftKnee.x + origin.z});
+
         // left hip
         curve.points.push({y:scale*(height - pose.leftHip.y) + origin.y, z:scale*pose.leftHip.x + origin.z});
 
-        // left shoulder
-        curve.points.push({y:scale*(height - pose.leftShoulder.y) + origin.y, z:scale*pose.leftShoulder.x + origin.z});
+        // left wrist
+        curve.points.push({y:scale*(height - pose.leftWrist.y) + origin.y, z:scale*pose.leftWrist.x + origin.z});
 
         // left elbow
         curve.points.push({y:scale*(height - pose.leftElbow.y) + origin.y, z:scale*pose.leftElbow.x + origin.z});
 
-        // left wrist
-        curve.points.push({y:scale*(height - pose.leftWrist.y) + origin.y, z:scale*pose.leftWrist.x + origin.z});
+        // left shoulder
+        curve.points.push({y:scale*(height - pose.leftShoulder.y) + origin.y, z:scale*pose.leftShoulder.x + origin.z});
 
         // left ear
         curve.points.push({y:scale*(height - pose.leftEar.y) + origin.y, z:scale*pose.leftEar.x + origin.z});
@@ -240,17 +248,23 @@ function main() {
         // right ear
         curve.points.push({y:scale*(height - pose.rightEar.y) + origin.y, z:scale*pose.rightEar.x + origin.z});
 
-        // right wrist
-        curve.points.push({y:scale*(height - pose.rightWrist.y) + origin.y, z:scale*pose.rightWrist.x + origin.z});
+        //right shoulder
+        curve.points.push({y:scale*(height - pose.rightShoulder.y) + origin.y, z:scale*pose.rightShoulder.x + origin.z});
 
         // right elbow
         curve.points.push({y:scale*(height - pose.rightElbow.y) + origin.y, z:scale*pose.rightElbow.x + origin.z});
 
-        //right shoulder
-        curve.points.push({y:scale*(height - pose.rightShoulder.y) + origin.y, z:scale*pose.rightShoulder.x + origin.z});
+        // right wrist
+        curve.points.push({y:scale*(height - pose.rightWrist.y) + origin.y, z:scale*pose.rightWrist.x + origin.z});
 
         // right hip
         curve.points.push({y:scale*(height - pose.rightHip.y) + origin.y, z:scale*pose.rightHip.x + origin.z});
+
+        // right knee
+        curve.points.push({y:scale*(height - pose.rightKnee.y) + origin.y, z:scale*pose.rightKnee.x + origin.z});
+
+        // right ankle
+        curve.points.push({y:scale*(height - pose.rightAnkle.y) + origin.y, z:scale*pose.rightAnkle.x + origin.z});
 
         curveID++;
         return curve;
