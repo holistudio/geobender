@@ -79,9 +79,9 @@ function main() {
         // const helper = new THREE.DirectionalLightHelper( light, 5 );
 
         // blue point light for two-color gradient effect
-        const pointLight = new THREE.PointLight(0x0000FF, 0.5, 0 );
+        const pointLight = new THREE.PointLight(0x0000FF, 1.0, 0 );
         // pointLight.position.set( 1500, -1000, -3000 );
-        pointLight.position.set(1053,1000,0);
+        pointLight.position.set(1053,500,-1000);
         scene.add( pointLight );
 
         // const pointLightHelper = new THREE.PointLightHelper( pointLight, 5 );
