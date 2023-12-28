@@ -4,8 +4,8 @@ let updateTime = 0; // stores the next time the geometry needs to be updated
 let updateRate = 2; // rate (Hz) at which poses are detected to update the mesh geometry
 
 // Variables for controlling where the pose geometry is generated in the scene and how big it is
-const origin = {x: -500, y: 500, z: -1500}; // local origin of the generated geometry from poses
-const scale = 7.5; // scale up pose key points x-y coordinates in the webcam video's frame of reference
+const origin = {x: -1200, y: 1000, z: -1500}; // local origin of the generated geometry from poses
+const scale = 10; // scale up pose key points x-y coordinates in the webcam video's frame of reference
 
 const numPoses = 30; // number of poses to detect to form geometry
 // waitTime = numPoses / updateRate (amount of time you have to wait before seeing any geometry)
@@ -430,7 +430,7 @@ function setup(){
     });
 
     // Hide the video element, and just show the canvas
-    // video.hide();
+    video.hide();
 
     // Run the main function (THREEjs code using the PoseNet detection data)
     main();
