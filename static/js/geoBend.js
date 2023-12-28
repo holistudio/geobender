@@ -3,8 +3,8 @@ let startTime = 0; // seconds from which to start recording poses and update geo
 let updateTime = 0; // stores the next time the geometry needs to be updated
 let updateRate = 2; // rate (Hz) at which poses are detected to update the mesh geometry
 
-// Variables for controlling where the geometry is generated in the scene and how big it is
-const origin = {y: -500, z: -1000}; // local origin of the generated geometry from poses
+// Variables for controlling where the pose geometry is generated in the scene and how big it is
+const origin = {x: -1200, y: 1000, z: -1500}; // local origin of the generated geometry from poses
 const scale = 10; // scale up pose key points x-y coordinates in the webcam video's frame of reference
 
 const numPoses = 30; // number of poses to detect to form geometry
@@ -14,7 +14,7 @@ const numPoses = 30; // number of poses to detect to form geometry
 const poseCurveSpacing = 30
 let poseCurveXCoordinates = []; // stores the x-coordinates the curve to keep constant over geometry updates
 for (let i = 0; i < numPoses; i++) {
-    poseCurveXCoordinates.push(poseCurveSpacing*i-50);
+    poseCurveXCoordinates.push(origin.x + poseCurveSpacing*i);
 }
 
 // Variables for storing the geometry to show in the scene
@@ -79,9 +79,9 @@ function main() {
         // const helper = new THREE.DirectionalLightHelper( light, 5 );
 
         // blue point light for two-color gradient effect
-        const pointLight = new THREE.PointLight(0x0000FF, 0.5, 0 );
+        const pointLight = new THREE.PointLight(0x0000FF, 1.0, 0 );
         // pointLight.position.set( 1500, -1000, -3000 );
-        pointLight.position.set(1053,1000,0);
+        pointLight.position.set(1053,500,-1000);
         scene.add( pointLight );
 
         // const pointLightHelper = new THREE.PointLightHelper( pointLight, 5 );
@@ -219,17 +219,25 @@ function main() {
 
         let pose = poses[0].pose;
 
+        // console.log(pose);
+
+        // left ankle
+        curve.points.push({y:scale*(height - pose.leftAnkle.y) + origin.y, z:scale*pose.leftAnkle.x + origin.z});
+
+        // left knee
+        curve.points.push({y:scale*(height - pose.leftKnee.y) + origin.y, z:scale*pose.leftKnee.x + origin.z});
+
         // left hip
         curve.points.push({y:scale*(height - pose.leftHip.y) + origin.y, z:scale*pose.leftHip.x + origin.z});
 
-        // left shoulder
-        curve.points.push({y:scale*(height - pose.leftShoulder.y) + origin.y, z:scale*pose.leftShoulder.x + origin.z});
+        // left wrist
+        curve.points.push({y:scale*(height - pose.leftWrist.y) + origin.y, z:scale*pose.leftWrist.x + origin.z});
 
         // left elbow
         curve.points.push({y:scale*(height - pose.leftElbow.y) + origin.y, z:scale*pose.leftElbow.x + origin.z});
 
-        // left wrist
-        curve.points.push({y:scale*(height - pose.leftWrist.y) + origin.y, z:scale*pose.leftWrist.x + origin.z});
+        // left shoulder
+        curve.points.push({y:scale*(height - pose.leftShoulder.y) + origin.y, z:scale*pose.leftShoulder.x + origin.z});
 
         // left ear
         curve.points.push({y:scale*(height - pose.leftEar.y) + origin.y, z:scale*pose.leftEar.x + origin.z});
@@ -240,17 +248,23 @@ function main() {
         // right ear
         curve.points.push({y:scale*(height - pose.rightEar.y) + origin.y, z:scale*pose.rightEar.x + origin.z});
 
-        // right wrist
-        curve.points.push({y:scale*(height - pose.rightWrist.y) + origin.y, z:scale*pose.rightWrist.x + origin.z});
+        //right shoulder
+        curve.points.push({y:scale*(height - pose.rightShoulder.y) + origin.y, z:scale*pose.rightShoulder.x + origin.z});
 
         // right elbow
         curve.points.push({y:scale*(height - pose.rightElbow.y) + origin.y, z:scale*pose.rightElbow.x + origin.z});
 
-        //right shoulder
-        curve.points.push({y:scale*(height - pose.rightShoulder.y) + origin.y, z:scale*pose.rightShoulder.x + origin.z});
+        // right wrist
+        curve.points.push({y:scale*(height - pose.rightWrist.y) + origin.y, z:scale*pose.rightWrist.x + origin.z});
 
         // right hip
         curve.points.push({y:scale*(height - pose.rightHip.y) + origin.y, z:scale*pose.rightHip.x + origin.z});
+
+        // right knee
+        curve.points.push({y:scale*(height - pose.rightKnee.y) + origin.y, z:scale*pose.rightKnee.x + origin.z});
+
+        // right ankle
+        curve.points.push({y:scale*(height - pose.rightAnkle.y) + origin.y, z:scale*pose.rightAnkle.x + origin.z});
 
         curveID++;
         return curve;
@@ -398,11 +412,13 @@ function main() {
 
 // p5js setup function (runs only once)
 function setup(){
+    createCanvas(0,0);
+
     // start the webcam feed
     video = createCapture(VIDEO);
 
     // set video size to the width and height of the canvas
-    video.size(width, height);
+    video.size(400*0.75, 300*0.75);
 
     // Create a new poseNet method with a single detection
     poseNet = ml5.poseNet(video);
